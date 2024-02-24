@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="field">
+            <p class="control has-icon-left has-icon-right">
+                <input class="input" type="email" placeholder="Email" id="email">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control has-icon-left">
+                <input class="input" type="password" placeholder="Password" id="password">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control">
+                <button class="button is-success" id="button">
+                    Login
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyCLj9_4Kl4aFqBHbgJFwH8gncw5jFeXGr0",
+          authDomain: "testfire-69b72.firebaseapp.com",
+          projectId: "testfire-69b72",
+          storageBucket: "testfire-69b72.appspot.com",
+          messagingSenderId: "581580482401",
+          appId: "1:581580482401:web:90d9bb770b81fa202f0720",
+          measurementId: "G-RYJ0R8DCQX"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        //
+        const button = document.getElementById("button");
+
+        button.addEventListener("mouseup", async (e) => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email === "" | password === "") {
+                alert("Input credentials")
+                return
+            }
+
+            try {
+                const docRef = await addDoc(collection(db, "Users"), {
+                    Email: email,
+                    Password: password
+                });
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        })
+      </script>
+</body>
+</html>
